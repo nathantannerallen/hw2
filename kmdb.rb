@@ -231,4 +231,41 @@ Actor.where(agent_id: ari.id).each do |actor|
 end
 
 
+###########
+# Note: from class we didn't learn how to format the output like a table, but I'm putting some print statements below that make the output match more.
+###########
+puts ""
+puts ""
+puts "FORMATTED VERSIONS"
+puts ""
+puts "Movies - TABLE FORMAT"
+puts "======"
+Movie.all.each do |movie|
+  studio = Studio.find_by({"id" => movie["studio_id"]})
+  title   = movie["movie_title"].ljust(22)
+  year    = movie["year_released"].to_s.ljust(14)
+  rating  = movie["mpaa_rating"].ljust(6)
+  studio_name = studio["studio_name"]
+  puts "#{title} #{year} #{rating} #{studio_name}"
+end
 
+
+puts ""
+puts "Top Cast - TABLE FORMAT"
+puts "========"
+Role.all.each do |role|
+  actor = Actor.find_by({"id" => role["actor_id"]})
+  movie = Movie.find_by({"id" => role["movie_id"]})
+  title     = movie["movie_title"].ljust(22)
+  actor_name = actor["actor_name"].ljust(20)
+  character = role["character_name"]
+  puts "#{title} #{actor_name} #{character}"
+end
+
+puts ""
+puts "Represented by agent - TABLE FORMAT"
+puts "===================="
+ari = Agent.find_by(agent_name: "Ari Emanuel")
+Actor.where(agent_id: ari.id).each do |actor|
+  puts actor.actor_name
+end
