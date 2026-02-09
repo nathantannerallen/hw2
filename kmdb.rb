@@ -75,39 +75,160 @@
 # ====================
 # Christian Bale
 
+### Start of Assignment ###
+
 # Delete existing data, so you'll start fresh each time this script is run.
 # Use `Model.destroy_all` code.
 # TODO!
+Movie.destroy_all
+Studio.destroy_all
+Actor.destroy_all
+Agent.destroy_all
+Role.destroy_all
 
 # Generate models and tables, according to the domain model.
 # TODO!
+# In the terminal, I executed the following commands:
+#   > rails generate model Movie
+#   > rails generate model Studio
+#   > rails generate model Actor
+#   > rails generate model Agent
+#   > rails generate model Role
+#
+# Then, I added the following code in the db/migrate/ folder for each appropriate model
+# for movies:
+#   >   t.string "movie_title"
+#   >   t.integer "year_released"
+#   >   t.string "mpaa_rating"
+#   >   t.integer "studio_id"
+# for studios:
+#   >   t.string "studio_name" 
+# for actors:
+#   >    t.string "actor_name"
+#   >    t.integer "agent_id"
+# for agents:
+#   >    t.string "agent_name"
+# for roles:
+#   >    t.integer "movie_id"
+#   >    t.integer "actor_id"
+#   >    t.string "character_name"
+#
+# In the terminal, I then executed the following command: 
+#   > rails db:migrate
 
 # Insert data into the database that reflects the sample data shown above.
 # Do not use hard-coded foreign key IDs.
 # TODO!
 
+# Adding studios
+warner_bros = Studio.create!(studio_name: "Warner Bros.")
+
+
+
+# Adding movies 
+batman_begins = Movie.create!(
+  movie_title: "Batman Begins",
+  year_released: 2005,
+  mpaa_rating: "PG-13",
+  studio: warner_bros
+)
+
+dark_knight = Movie.create!(
+  movie_title: "The Dark Knight",
+  year_released: 2008,
+  mpaa_rating: "PG-13",
+  studio: warner_bros
+)
+
+dark_knight_rises = Movie.create!(
+  movie_title: "The Dark Knight Rises",
+  year_released: 2012,
+  mpaa_rating: "PG-13",
+  studio: warner_bros
+)
+
+
+# Adding agents
+ari = Agent.create!(agent_name: "Ari Emanuel")
+
+
+# Adding actors (Note: Christian Bale is represented by Ari Emanuel)
+christian_bale = Actor.create!(actor_name: "Christian Bale", agent: ari)
+michael_caine = Actor.create!(actor_name: "Michael Caine")
+liam_neeson = Actor.create!(actor_name: "Liam Neeson")
+katie_holmes = Actor.create!(actor_name: "Katie Holmes")
+gary_oldman = Actor.create!(actor_name: "Gary Oldman")
+heath_ledger = Actor.create!(actor_name: "Heath Ledger")
+aaron_eckhart = Actor.create!(actor_name: "Aaron Eckhart")
+maggie_gyllenhaal = Actor.create!(actor_name: "Maggie Gyllenhaal")
+tom_hardy = Actor.create!(actor_name: "Tom Hardy")
+joseph_gordon_levitt = Actor.create!(actor_name: "Joseph Gordon-Levitt")
+anne_hathaway = Actor.create!(actor_name: "Anne Hathaway")
+
+
+
+# Adding roles
+# 
+# Batman Begins
+Role.create!(movie: batman_begins, actor: christian_bale, character_name: "Bruce Wayne")
+Role.create!(movie: batman_begins, actor: michael_caine, character_name: "Alfred")
+Role.create!(movie: batman_begins, actor: liam_neeson, character_name: "Ra's Al Ghul")
+Role.create!(movie: batman_begins, actor: katie_holmes, character_name: "Rachel Dawes")
+Role.create!(movie: batman_begins, actor: gary_oldman, character_name: "Commissioner Gordon")
+
+# The Dark Knight
+Role.create!(movie: dark_knight, actor: christian_bale, character_name: "Bruce Wayne")
+Role.create!(movie: dark_knight, actor: heath_ledger, character_name: "Joker")
+Role.create!(movie: dark_knight, actor: aaron_eckhart, character_name: "Harvey Dent")
+Role.create!(movie: dark_knight, actor: michael_caine, character_name: "Alfred")
+Role.create!(movie: dark_knight, actor: maggie_gyllenhaal, character_name: "Rachel Dawes")
+
+# The Dark Knight Rises
+Role.create!(movie: dark_knight_rises, actor: christian_bale, character_name: "Bruce Wayne")
+Role.create!(movie: dark_knight_rises, actor: gary_oldman, character_name: "Commissioner Gordon")
+Role.create!(movie: dark_knight_rises, actor: tom_hardy, character_name: "Bane")
+Role.create!(movie: dark_knight_rises, actor: joseph_gordon_levitt, character_name: "John Blake")
+Role.create!(movie: dark_knight_rises, actor: anne_hathaway, character_name: "Selina Kyle")
+
+
+
+
 # Prints a header for the movies output
 puts "Movies"
 puts "======"
 puts ""
-
 # Query the movies data and loop through the results to display the movies output.
 # TODO!
+
+
+
+
+
+
+
 
 # Prints a header for the cast output
 puts ""
 puts "Top Cast"
 puts "========"
 puts ""
-
 # Query the cast data and loop through the results to display the cast output for each movie.
 # TODO!
+
+
+
+
+
+
 
 # Prints a header for the agent's list of represented actors output
 puts ""
 puts "Represented by agent"
 puts "===================="
 puts ""
-
 # Query the actor data and loop through the results to display the agent's list of represented actors output.
 # TODO!
+
+
+
+
