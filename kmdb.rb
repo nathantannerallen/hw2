@@ -130,21 +130,21 @@ batman_begins = Movie.create!(
   movie_title: "Batman Begins",
   year_released: 2005,
   mpaa_rating: "PG-13",
-  studio: warner_bros
+  studio_id: warner_bros.id
 )
 
 dark_knight = Movie.create!(
   movie_title: "The Dark Knight",
   year_released: 2008,
   mpaa_rating: "PG-13",
-  studio: warner_bros
+  studio_id: warner_bros.id
 )
 
 dark_knight_rises = Movie.create!(
   movie_title: "The Dark Knight Rises",
   year_released: 2012,
   mpaa_rating: "PG-13",
-  studio: warner_bros
+  studio_id: warner_bros.id
 )
 
 
@@ -153,7 +153,7 @@ ari = Agent.create!(agent_name: "Ari Emanuel")
 
 
 # Adding actors (Note: Christian Bale is represented by Ari Emanuel)
-christian_bale = Actor.create!(actor_name: "Christian Bale", agent: ari)
+christian_bale = Actor.create!(actor_name: "Christian Bale", agent_id: ari.id)
 michael_caine = Actor.create!(actor_name: "Michael Caine")
 liam_neeson = Actor.create!(actor_name: "Liam Neeson")
 katie_holmes = Actor.create!(actor_name: "Katie Holmes")
@@ -170,25 +170,25 @@ anne_hathaway = Actor.create!(actor_name: "Anne Hathaway")
 # Adding roles
 # 
 # Batman Begins
-Role.create!(movie: batman_begins, actor: christian_bale, character_name: "Bruce Wayne")
-Role.create!(movie: batman_begins, actor: michael_caine, character_name: "Alfred")
-Role.create!(movie: batman_begins, actor: liam_neeson, character_name: "Ra's Al Ghul")
-Role.create!(movie: batman_begins, actor: katie_holmes, character_name: "Rachel Dawes")
-Role.create!(movie: batman_begins, actor: gary_oldman, character_name: "Commissioner Gordon")
+Role.create!(movie_id: batman_begins.id, actor_id: christian_bale.id, character_name: "Bruce Wayne")
+Role.create!(movie_id: batman_begins.id, actor_id: michael_caine.id, character_name: "Alfred")
+Role.create!(movie_id: batman_begins.id, actor_id: liam_neeson.id, character_name: "Ra's Al Ghul")
+Role.create!(movie_id: batman_begins.id, actor_id: katie_holmes.id, character_name: "Rachel Dawes")
+Role.create!(movie_id: batman_begins.id, actor_id: gary_oldman.id, character_name: "Commissioner Gordon")
 
 # The Dark Knight
-Role.create!(movie: dark_knight, actor: christian_bale, character_name: "Bruce Wayne")
-Role.create!(movie: dark_knight, actor: heath_ledger, character_name: "Joker")
-Role.create!(movie: dark_knight, actor: aaron_eckhart, character_name: "Harvey Dent")
-Role.create!(movie: dark_knight, actor: michael_caine, character_name: "Alfred")
-Role.create!(movie: dark_knight, actor: maggie_gyllenhaal, character_name: "Rachel Dawes")
+Role.create!(movie_id: dark_knight.id, actor_id: christian_bale.id, character_name: "Bruce Wayne")
+Role.create!(movie_id: dark_knight.id, actor_id: heath_ledger.id, character_name: "Joker")
+Role.create!(movie_id: dark_knight.id, actor_id: aaron_eckhart.id, character_name: "Harvey Dent")
+Role.create!(movie_id: dark_knight.id, actor_id: michael_caine.id, character_name: "Alfred")
+Role.create!(movie_id: dark_knight.id, actor_id: maggie_gyllenhaal.id, character_name: "Rachel Dawes")
 
 # The Dark Knight Rises
-Role.create!(movie: dark_knight_rises, actor: christian_bale, character_name: "Bruce Wayne")
-Role.create!(movie: dark_knight_rises, actor: gary_oldman, character_name: "Commissioner Gordon")
-Role.create!(movie: dark_knight_rises, actor: tom_hardy, character_name: "Bane")
-Role.create!(movie: dark_knight_rises, actor: joseph_gordon_levitt, character_name: "John Blake")
-Role.create!(movie: dark_knight_rises, actor: anne_hathaway, character_name: "Selina Kyle")
+Role.create!(movie_id: dark_knight_rises.id, actor_id: christian_bale.id, character_name: "Bruce Wayne")
+Role.create!(movie_id: dark_knight_rises.id, actor_id: gary_oldman.id, character_name: "Commissioner Gordon")
+Role.create!(movie_id: dark_knight_rises.id, actor_id: tom_hardy.id, character_name: "Bane")
+Role.create!(movie_id: dark_knight_rises.id, actor_id: joseph_gordon_levitt.id, character_name: "John Blake")
+Role.create!(movie_id: dark_knight_rises.id, actor_id: anne_hathaway.id, character_name: "Selina Kyle")
 
 
 
@@ -196,14 +196,12 @@ Role.create!(movie: dark_knight_rises, actor: anne_hathaway, character_name: "Se
 # Prints a header for the movies output
 puts "Movies"
 puts "======"
-puts ""
 # Query the movies data and loop through the results to display the movies output.
 # TODO!
-
-
-
-
-
+Movie.all.each do |movie|
+  studio = Studio.find_by({"id" => movie["studio_id"]})
+  puts "#{movie["movie_title"]}  #{movie["year_released"]}  #{movie["mpaa_rating"]} #{studio["studio_name"]}"
+end
 
 
 
@@ -211,13 +209,13 @@ puts ""
 puts ""
 puts "Top Cast"
 puts "========"
-puts ""
 # Query the cast data and loop through the results to display the cast output for each movie.
 # TODO!
-
-
-
-
+Role.all.each do |role|
+  actor = Actor.find_by({"id" => role["actor_id"]})
+  movie = Movie.find_by({"id" => role["movie_id"]})
+  puts "#{movie["movie_title"]} #{actor["actor_name"]}  #{role["character_name"]}"
+end
 
 
 
@@ -225,10 +223,12 @@ puts ""
 puts ""
 puts "Represented by agent"
 puts "===================="
-puts ""
 # Query the actor data and loop through the results to display the agent's list of represented actors output.
 # TODO!
-
+ari = Agent.find_by(agent_name: "Ari Emanuel")
+Actor.where(agent_id: ari.id).each do |actor|
+  puts actor.actor_name
+end
 
 
 
